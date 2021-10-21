@@ -1,4 +1,12 @@
-class Patterns():
+"""
+Constants used as regex patterns in the lexing process.
+"""
+
+
+class Patterns:
+    """
+    Class of pattern constants.
+    """
     SPACE_CHARACTER_PATTERN = r" "
     PLUS_PATTERN = r"\+"
     MINUS_PATTERN = r"-"

@@ -1,4 +1,12 @@
-class StringTypes():
+"""
+Constants to differentiate the types of Substrings.
+"""
+
+
+class StringTypes:
+    """
+    Class of substring type constants.
+    """
     SPACE_CHARACTER = 1
     PLUS = 2
     MINUS = 3

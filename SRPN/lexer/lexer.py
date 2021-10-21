@@ -1,4 +1,7 @@
-from typing import List, Tuple
+"""
+Lexer object used to prepare user input for tokenization.
+"""
+from typing import Tuple
 
 from patterns import Patterns
 from substrings import Substring
@@ -6,22 +9,31 @@ from string_types import StringTypes
 import re
 
 
-class Lexer():
-    def __init__(self):
+class Lexer:
+    """
+    Prepares the user input for tokenization.
+    """
+
+    def __init__(self) -> None:
         self._comment_open = False
 
     def read_user_input(self, user_input: str):
+        """
+        Method to decompose and clean a user input in preparation for tokenization.
+        :param user_input: User input string.
+        """
         substrings = self._decompose_command(user_input)
-        print("decompose")
-        print(tuple(str(i) for i in substrings))
+        # print("decompose")
+        # print(tuple(str(i) for i in substrings))
         substrings = self._verify_hashtag_commands(substrings)
-        print("remove comments")
-        print(tuple(str(i) for i in substrings))
+        # print("remove comments")
+        # print(tuple(str(i) for i in substrings))
         substrings = self._verify_minus_operands(substrings)
-        print("group negative operands")
-        print(tuple(str(i) for i in substrings))
+        # print("group negative operands")
+        # print(tuple(str(i) for i in substrings))
 
-    def _decompose_command(self, string: str) -> Tuple[Substring, ...]:
+    @staticmethod
+    def _decompose_command(string: str) -> Tuple[Substring, ...]:
         """
         Receive user input, break it down into substrings that are used in the algorithms to determine what are the
         separate parts of the command.
@@ -56,9 +68,10 @@ class Lexer():
         comment_marker_indexes = tuple(comment_marker_indexes)
         return self._remove_comment_substrings(substrings, comment_marker_indexes)
 
-    def _is_hashtag_a_comment_marker(self, substrings: Tuple[Substring, ...], index) -> bool:
+    @staticmethod
+    def _is_hashtag_a_comment_marker(substrings: Tuple[Substring, ...], index: int) -> bool:
         """
-        Check if a hashtag fufils the requirements to be read as a comment marker
+        Check if a hashtag fulfills the requirements to be read as a comment marker
         :param substrings: Tuple of the decomposed user input as Substrings.
         :param index: Index of the substring being evaluated as a potential comment marker.
         :return: Boolean stating whether the substring is a comment marker.
@@ -76,6 +89,14 @@ class Lexer():
 
     def _remove_comment_substrings(
             self, substrings: Tuple[Substring, ...], comment_marker_indexes: Tuple[int, ...]) -> Tuple[Substring, ...]:
+        """
+        Use the comment markers to partition the substrings, subsequently removing all partitions that are part of a
+        comment.
+        :param substrings: Tuple of the decomposed user input as Substrings.
+        :param comment_marker_indexes: Indexes of every comment marker (a comment marker being a point where a comment
+        either starts or ends).
+        :return: Tuple of substrings with all comments removed.
+        """
         substrings = list(substrings)
         new_substrings, partitions = list(), list()
 
@@ -95,6 +116,11 @@ class Lexer():
         return tuple(new_substrings)
 
     def _verify_minus_operands(self, substrings: Tuple[Substring, ...]) -> Tuple[Substring, ...]:
+        """
+        Read substrings and ensure the correct minus symbols are joined to their respective operands.
+        :param substrings: Tuple of the decomposed user input as Substrings.
+        :return: Tuple of decomposed user input with operands correctly prefaced with negative symbols.
+        """
         minus_operand_indexes = list()
 
         for index, substring in enumerate(substrings):
@@ -105,8 +131,15 @@ class Lexer():
         minus_operand_indexes = tuple(minus_operand_indexes)
         return self._combine_minuses_with_operands(substrings, minus_operand_indexes)
 
+    @staticmethod
     def _combine_minuses_with_operands(
-            self, substrings: Tuple[Substring, ...], minus_operand_indexes: Tuple[int, ...]) -> Tuple[Substring, ...]:
+            substrings: Tuple[Substring, ...], minus_operand_indexes: Tuple[int, ...]) -> Tuple[Substring, ...]:
+        """
+        Combines the specified minus symbols with their respective operands.
+        :param substrings: Tuple of the decomposed user input as Substrings.
+        :param minus_operand_indexes: Indexes of the minuses to be combined with the operand that supersedes them.
+        :return: Tuple of decomposed user input with operands correctly prefaced with negative symbols.
+        """
         substrings = list(substrings)
 
         for index in reversed(minus_operand_indexes):
@@ -117,7 +150,14 @@ class Lexer():
             substrings.insert(index, new_operand)
         return tuple(substrings)
 
-    def _is_minus_for_operand(self, substrings: Tuple[Substring, ...], index) -> bool:
+    @staticmethod
+    def _is_minus_for_operand(substrings: Tuple[Substring, ...], index: int) -> bool:
+        """
+
+        :param substrings:
+        :param index:
+        :return:
+        """
         pointer = index
         final_index = len(substrings) - 1
         consecutive_minuses = 0
