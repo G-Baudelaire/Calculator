@@ -58,10 +58,10 @@ class Lexer():
 
     def _is_hashtag_a_comment_marker(self, substrings: Tuple[Substring, ...], index) -> bool:
         """
-        Check if a hashtag fufills the requirements to be read as a comment marker
-        :param substrings:
-        :param index:
-        :return:
+        Check if a hashtag fufils the requirements to be read as a comment marker
+        :param substrings: Tuple of the decomposed user input as Substrings.
+        :param index: Index of the substring being evaluated as a potential comment marker.
+        :return: Boolean stating whether the substring is a comment marker.
         """
         final_index = len(substrings) - 1
 
