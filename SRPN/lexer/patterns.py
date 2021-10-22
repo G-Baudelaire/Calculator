@@ -18,6 +18,7 @@ class Patterns:
     COMMAND_D_PATTERN = r"d"
     COMMAND_EQUALS_PATTERN = r"="
     HASHTAG_PATTERN = r"#"
+    COMMAND_RANDOM = r"r"
     NON_VALUE_PATTERN = r"."
     PATTERNS_LIST = [
         SPACE_CHARACTER_PATTERN,
@@ -31,5 +32,6 @@ class Patterns:
         COMMAND_D_PATTERN,
         COMMAND_EQUALS_PATTERN,
         HASHTAG_PATTERN,
+        COMMAND_RANDOM,
         NON_VALUE_PATTERN,
     ]

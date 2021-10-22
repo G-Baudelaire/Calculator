@@ -38,5 +38,7 @@ class Tokenizer:
             return command.OutputTopOfStack()
         elif substring.get_string_type() == StringTypes.HASHTAG:
             return operand.Operand(Tokenizer._STRING_VALUE_OF_ZERO)
+        elif substring.get_string_type() == StringTypes.RANDOM:
+            return command.StoreRandomInteger()
         elif substring.get_string_type() == StringTypes.NON_VALUE:
             return operand.Operand(Tokenizer._STRING_VALUE_OF_ZERO)

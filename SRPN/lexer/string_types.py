@@ -18,7 +18,8 @@ class StringTypes:
     LETTER_D = 9
     EQUALS = 10
     HASHTAG = 11
-    NON_VALUE = 12
+    RANDOM = 12
+    NON_VALUE = 13
     STRING_TYPES = [
         SPACE_CHARACTER,
         PLUS,
@@ -28,8 +29,9 @@ class StringTypes:
         MODULO,
         EXPONENT,
         DIGITS,
-        LETTER_D
-        , EQUALS,
+        LETTER_D,
+        EQUALS,
         HASHTAG,
+        RANDOM,
         NON_VALUE
     ]
