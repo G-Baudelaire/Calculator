@@ -8,7 +8,7 @@ lexer = Lexer()
 
 def process_command(command):
     substrings = lexer.read_user_input(command)
-    tokenizer.read_substrings(substrings)
+    tokens = tokenizer.read_substrings(substrings)
 
 
 # This is the entry point for the program.
