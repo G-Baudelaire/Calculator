@@ -1,16 +1,14 @@
 from typing import Optional
 
+from SRPN.tokens.token import Token
 
-class Command:
+
+class Command(Token):
     pass
 
 
-class DisplayStack(Command):
+class OutputStack(Command):
     pass
 
-
-def get_command(string: str) -> Optional[DisplayStack]:
-    if string == "d":
-        return DisplayStack()
-    else:
-        return None
+class OutputTopOfStack(Command):
+    pass

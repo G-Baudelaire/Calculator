@@ -12,7 +12,7 @@ class StringTypes:
     MINUS = 3
     MULTIPLY = 4
     DIVIDE = 5
-    MODULUS = 6
+    MODULO = 6
     EXPONENT = 7
     DIGITS = 8
     LETTER_D = 9
@@ -25,7 +25,7 @@ class StringTypes:
         MINUS,
         MULTIPLY,
         DIVIDE,
-        MODULUS,
+        MODULO,
         EXPONENT,
         DIGITS,
         LETTER_D

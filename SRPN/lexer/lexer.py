@@ -3,9 +3,9 @@ Lexer object used to prepare user input for tokenization.
 """
 from typing import Tuple
 
-from patterns import Patterns
-from substrings import Substring
-from string_types import StringTypes
+from .patterns import Patterns
+from .substrings import Substring
+from .string_types import StringTypes
 import re
 
 
@@ -17,20 +17,15 @@ class Lexer:
     def __init__(self) -> None:
         self._comment_open = False
 
-    def read_user_input(self, user_input: str):
+    def read_user_input(self, user_input: str) -> Tuple[Substring, ...]:
         """
         Method to decompose and clean a user input in preparation for tokenization.
         :param user_input: User input string.
         """
         substrings = self._decompose_command(user_input)
-        # print("decompose")
-        # print(tuple(str(i) for i in substrings))
         substrings = self._verify_hashtag_commands(substrings)
-        # print("remove comments")
-        # print(tuple(str(i) for i in substrings))
         substrings = self._verify_minus_operands(substrings)
-        # print("group negative operands")
-        # print(tuple(str(i) for i in substrings))
+        return substrings
 
     @staticmethod
     def _decompose_command(string: str) -> Tuple[Substring, ...]:

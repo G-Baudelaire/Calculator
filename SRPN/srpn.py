@@ -1,15 +1,19 @@
-  #This is your SRPN file. Make your changes here.
+# This is your SRPN file. Make your changes here.
+from SRPN.lexer.lexer import Lexer
+from SRPN.tokens.tokenizer import Tokenizer
+
+tokenizer = Tokenizer()
+lexer = Lexer()
+
 
 def process_command(command):
-    if command == "=":
-        return "0"
-    else:
-        return None
+    substrings = lexer.read_user_input(command)
+    tokens = tokenizer.read_substrings(substrings)
 
 
-#This is the entry point for the program.
-#Do not edit the below
-if __name__ == "__main__": 
+# This is the entry point for the program.
+# Do not edit the below
+if __name__ == "__main__":
     while True:
         try:
             cmd = input()
