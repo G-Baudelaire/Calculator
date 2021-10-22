@@ -1,5 +1,5 @@
-from SRPN.stack.underflow_error import UnderflowError
-from SRPN.tokens import Operand, Operator
+from SRPN.errors.underflow_error import UnderflowError
+from SRPN.tokens.operators import Operator
 
 
 class Stack:
@@ -23,4 +23,5 @@ class Stack:
         if len(self._memory) == 1:
             raise UnderflowError("Stack only has one operand")
         else:
-            output = operator.perform_operator(self._memory[-2], self._memory[-1])
+            output = operator.perform_operation(self._memory[-2], self._memory[-1])
+            self._memory[-1] = output

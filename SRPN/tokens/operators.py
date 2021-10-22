@@ -1,5 +1,7 @@
-from typing import Type, Optional
+from typing import Optional
 
+from SRPN.errors.negative_exponent_error import NegativeExponentError
+from SRPN.errors.zero_modulus_error import ZeroModulusError
 from SRPN.tokens.token import Token, Operand
 
 
@@ -8,7 +10,7 @@ class Operator(Token):
     Abstract Operator class to define the methods each Operator subclass must implement.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Returns a bool stating whether the operator can be performed or should throw an error.
         :param operand1: The operand to the left of the operator.
@@ -16,7 +18,7 @@ class Operator(Token):
         """
         raise NotImplementedError("This is the abstract class for Operators and should not be used directly.")
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Performs the relevant operator on the two operands.
         :param operand1: The operand to the left of the operator.
@@ -30,7 +32,7 @@ class Multiply(Operator):
     Token for multiplication in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Multiply requires no checks.
         :param operand1: The operand to the left of the operator.
@@ -39,7 +41,7 @@ class Multiply(Operator):
         """
         return True
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Multiply the operands and round the output to the calculator bounds.
         :param operand1: The operand to the left of the operator.
@@ -54,7 +56,7 @@ class Division(Operator):
     Token for division in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Check whether the divisor is not zero.
         :param operand1: The operand to the left of the operator.
@@ -64,13 +66,16 @@ class Division(Operator):
         return bool(operand2 != 0)
 
     # TODO: Test if this function works on borderline values
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Divide operand1 by operand2 and round the output to the calculator bounds.
         :param operand1: The operand to the left of the operator.
         :param operand2: The operand to the right of the operator.
         :return: A bounded output of the division.
         """
+        if not self._error_check(operand1, operand2):
+            raise ZeroDivisionError()
+
         negative = (operand1 < 0) != (operand2 < 0)
         return _bound_output((-1 * negative) * (abs(operand1) // abs(operand2)))
 
@@ -80,7 +85,7 @@ class Addition(Operator):
     Token for Addition in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Addition requires no checks.
         :param operand1: The operand to the left of the operator.
@@ -89,7 +94,7 @@ class Addition(Operator):
         """
         return True
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         return _bound_output(operand1 + operand2)
 
 
@@ -98,7 +103,7 @@ class Subtraction(Operator):
     Token for subtraction in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Subtraction requires no checks.
         :param operand1: The operand to the left of the operator.
@@ -107,7 +112,7 @@ class Subtraction(Operator):
         """
         return True
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Subtract operand1 by operand2 and round the output to the calculator bounds.
         :param operand1: The operand to the left of the operator.
@@ -122,7 +127,7 @@ class Exponentiation(Operator):
     Token for exponentiation in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Check whether the exponent is not negative.
         :param operand1: The operand to the left of the operator.
@@ -131,13 +136,16 @@ class Exponentiation(Operator):
         """
         return bool(operand2 >= 0)
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Raise operand1 to the power of operand2 and round the output to the calculator bounds.
         :param operand1: The operand to the left of the operator.
         :param operand2: The operand to the right of the operator.
         :return: A bounded output of the division.
         """
+        if not self._error_check(operand1, operand2):
+            raise NegativeExponentError()
+
         return _bound_output(operand1 ^ operand2)
 
 
@@ -146,16 +154,19 @@ class Modulus(Operator):
     Token for performing modulus in the Parser.
     """
 
-    def error_check(self, operand1: Operand, operand2: Operand) -> bool:
+    def _error_check(self, operand1: Operand, operand2: Operand) -> bool:
         """
         Check whether the divisor is not zero.
         :param operand1: The operand to the left of the operator.
         :param operand2: The operand to the right of the operator.
         :return: Boolean.
         """
+        if not self._error_check(operand1, operand2):
+            raise ZeroModulusError()
+
         return bool(operand2 != 0)
 
-    def perform_operator(self, operand1: Operand, operand2: Operand):
+    def perform_operation(self, operand1: Operand, operand2: Operand):
         """
         Raise operand1 to the power of operand2 and round the output to the calculator bounds.
         :param operand1: The operand to the left of the operator.
@@ -171,6 +182,7 @@ def get_operator(string: str) -> Optional[Operator]:
     :param string: Symbol for each given operator.
     :return:
     """
+    # TODO: Check statement can be replaced with dictionary.
     if string == "*":
         return Multiply()
     elif string == "/":
