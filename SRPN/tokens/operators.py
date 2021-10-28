@@ -1,5 +1,4 @@
 from SRPN.errors.negative_exponent_error import NegativeExponentError
-from SRPN.errors.zero_modulus_error import ZeroModulusError
 from SRPN.tokens import general_methods, token
 
 
@@ -171,10 +170,6 @@ class Modulo(Operator):
         :return: A bounded output of the division.
         """
         if not self._error_check(operand1, operand2):
-            non_zero_error_str = "main.sh:\tline 5:\tFloating point exception(core dumped)\t./srpn/srpn"
-            non_zero_error = ZeroModulusError(non_zero_error_str)
-            zero_error = ZeroDivisionError("Divide by 0.")
-            if not self._error_check(operand1, operand2):
-                raise non_zero_error if operand1 else zero_error
+            raise ZeroDivisionError("Divide by 0.")
 
         return general_methods.GeneralMethods.bound_output(operand1 % operand2)
