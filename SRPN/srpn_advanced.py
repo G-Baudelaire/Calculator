@@ -2,9 +2,9 @@
 from SRPN.lexer.lexer import Lexer
 from SRPN.parse.parser import Parser
 from SRPN.stack.stack import Stack
-from SRPN.tokens.tokenizer import Tokenizer
+from SRPN.tokens.advanced_tokenizer import AdvancedTokenizer
 
-tokenizer = Tokenizer()
+tokenizer = AdvancedTokenizer()
 lexer = Lexer()
 parser = Parser()
 stack = Stack()
