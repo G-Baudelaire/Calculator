@@ -9,7 +9,7 @@ from .string_types import StringTypes
 from .substrings import Substring
 
 
-class Lexer:
+class AdvancedLexer:
     """
     Prepares the user input for tokenization.
     """
@@ -174,5 +174,5 @@ class Lexer:
 
 
 if __name__ == '__main__':
-    lexer = Lexer()
+    lexer = AdvancedLexer()
     lexer.read_user_input("  ### #")
